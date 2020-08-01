@@ -34,18 +34,21 @@
 			Well first things first. We can't make metaballs if we don't have any balls bouncing around the screen. So lets address that.
 		</p>
 		<div id='c2'></div>
+		<p>
+			Just like that we have our balls bouncing around the screen. The concept behind this is very simple. We just have to create a new ball object, assign it a random radius, height, and velocity, give it some edge collision detection, create about 15 of them and there you have it.
+		</p>
 		<h1>
 			Now what?
 		</h1>
 		<p>
-			Just like that we have our balls bouncing around the screen. The concept behind this is very simple. We just have to create a new ball object, assign it a random radius, height, and velocity, give it some edge collision detection, create about 15 of them and there you have it. The next few steps are where it gets a little challenging. So first lets start out by creating what I like to call a point field.
+			The next few steps are where it gets a little challenging, we now want to calculate values depending on how far or close we are from the balls. So first lets start out by creating what I like to call a point field.
 		</p>
 		<div id='c3'></div>
 		<h5>
-			For the purpose of this demonstration these points have a lower resolution than they would normally if you wanted to achieve a smooth, clean result.
+			For the purpose of this demonstration these points are configured in a lower resolution than they would normally if you wanted to achieve a smooth, clean result.
 		</h5>
 		<p>
-			Alright done now that we have this grid how do we make the balls interact with it. It's somewhat complicated, but not to difficult to understand. First we need to recall the equation of a circle. This equation is how we can find where out circles are.
+			Alright done. Now that we have this grid how do we make the balls interact with it. It's somewhat complicated, but not to difficult to understand. First we need to recall the equation of a circle. This equation is how we can find where out circles are.
 		</p>
 		<img src="TheMath.jpg" alt="The Math">
 		<p>
@@ -59,5 +62,6 @@
 		<h5>
 			All of these equations are from <a href="http://jamie-wong.com/2014/08/19/metaballs-and-marching-squares/">"http://jamie-wong.com/2014/08/19/metaballs-and-marching-squares/"</a> you can visit this page for a more in-depth breakdown of how these equations are achieved.
 		</h5>
+		<div id='c4'></div>
 	</body>
 </html>

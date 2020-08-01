@@ -13,7 +13,6 @@ var sketch1 = function(a) {
 
   a.setup = function() {
     a.createCanvas(500, 500);
-    //canvas.parent('sketch-holder');
     for (let i = 0; i < numBalls; i++) {
       balls.push(new Ball(a.random(a.width), a.random(a.height)));
     }
@@ -29,8 +28,6 @@ var sketch1 = function(a) {
     showFieldCheckBox.changed(showFieldCheckEvent);
     showBallsCheckbox = a.createCheckbox('Show Balls', false);
     showBallsCheckbox.changed(showBallsCheckEvent);
-    //showFieldCheckBox.parent('sketch-holder');
-    //showBallsCheckbox.parent('sketch-holder');
   }
 
   a.draw = function() {
@@ -229,7 +226,6 @@ var sketch2 = function(b) {
 
   b.setup = function() {
     b.createCanvas(500, 500);
-    //canvas.parent('sketchdemo1-holder');
     for (let i = 0; i < numBalls; i++) {
       balls.push(new Ball(b.random(b.width), b.random(b.height)));
     }
@@ -316,138 +312,14 @@ var sketch3 = function(c) {
     }
 	printField();
   }
-
-  function calculateField() {
-    for (let i = 0; i < cols; i++) {
-      for (let j = 0; j < rows; j++) {
-        field[i][j] = 0;
-        let sum = 0;
-        for (let ball of balls) {
-          let dx = i * res - ball.pos.x;
-          let dy = j * res - ball.pos.y;
-          let d2 = dx * dx + dy * dy;
-          sum += c.sq(ball.r) / d2;
-        }
-        field[i][j] = sum;
-      }
-    }
-  }
-
+  
   function printField() {
     for (let i = 0; i < cols; i++) {
       for (let j = 0; j < rows; j++) {
         c.strokeWeight(4);
-        c.stroke(field[i][j] * 255);
+        c.stroke(0);
         c.point(i * res, j * res);
       }
-    }
-  }
-
-  function march() {
-    for (let i = 0; i < cols - 1; i++) {
-      for (let j = 0; j < rows - 1; j++) {
-        let x = i * res;
-        let y = j * res;
-        let pointA, pointB, pointC, pointD;
-        if (field[i][j] < 1) {
-          pointA = 0;
-        } else {
-          pointA = 1;
-        }
-        if (field[i + 1][j] < 1) {
-          pointB = 0;
-        } else {
-          pointB = 1;
-        }
-        if (field[i + 1][j + 1] < 1) {
-          pointC = 0;
-        } else {
-          pointC = 1;
-        }
-        if (field[i][j + 1] < 1) {
-          pointD = 0;
-        } else {
-          pointD = 1;
-        }
-        let state = getState(pointA, pointB, pointC, pointD);
-        let A = field[i][j];
-        let B = field[i + 1][j];
-        let C = field[i + 1][j + 1];
-        let D = field[i][j + 1];
-        c.stroke(255);
-        c.strokeWeight(4);
-        switch (state) {
-          case 1:
-            c.line(x, li(y, A, D), li(x, D, C), y + res);
-            break;
-          case 2:
-            c.line(li(x, D, C), y + res, x + res, li(y, B, C));
-            break;
-          case 3:
-            c.line(x, li(y, A, D), x + res, li(y, B, C));
-            break;
-          case 4:
-            c.line(li(x, A, B), y, x + res, li(y, B, C));
-            break;
-          case 5:
-            c.line(x, li(y, A, D), li(x, A, B), y);
-            c.line(li(x, D, C), y + res, x + res, li(y, B, C));
-            break;
-          case 6:
-            c.line(li(x, A, B), y, li(x, D, C), y + res);
-            break;
-          case 7:
-            c.line(x, li(y, A, D), li(x, A, B), y);
-            break;
-          case 8:
-            c.line(x, li(y, A, D), li(x, A, B), y);
-            break;
-          case 9:
-            c.line(li(x, A, B), y, li(x, D, C), y + res);
-            break;
-          case 10:
-            c.line(x, li(y, A, D), li(x, D, C), y + res);
-            c.line(li(x, A, B), y, x + res, li(y, B, C));
-            break;
-          case 11:
-            c.line(li(x, A, B), y, x + res, li(y, B, C));
-            break;
-          case 12:
-            c.line(x, li(y, A, D), x + res, li(y, B, C));
-            break;
-          case 13:
-            c.line(li(x, D, C), y + res, x + res, li(y, B, C));
-            break;
-          case 14:
-            c.line(x, li(y, A, D), li(x, D, C), y + res);
-            break;
-        }
-      }
-    }
-  }
-
-  function getState(a, b, c, d) {
-    return a * 8 + b * 4 + c * 2 + d * 1;
-  }
-
-  function li(x, point1, point2) {
-    let y = x + res;
-    return x + (y - x) * ((1 - point1) / (point2 - point1));
-  }
-
-  function showFieldCheckEvent() {
-    if (this.checked()) {
-      showField = true;
-    } else {
-      showField = false;
-    }
-  }
-
-  function showBallsCheckEvent() {
-    if (this.checked()) {
-      showBalls = true;
-    } else {
-      showBalls = false;
     }
   }
 
@@ -490,3 +362,124 @@ var sketch3 = function(c) {
   }
 }
 var myp5 = new p5(sketch3, 'c3');
+var sketch4 = function(d) {
+
+  const balls = [];
+  let numBalls = 15;
+  let res = 10;
+  let cols, rows;
+  var field = [];
+  
+  var displayAsRectangles = false;
+
+  d.setup = function() {
+    d.createCanvas(500, 500);
+    for (let i = 0; i < numBalls; i++) {
+      balls.push(new Ball(d.random(d.width), d.random(d.height)));
+    }
+    cols = 1 + d.width / res;
+    rows = 1 + d.height / res;
+    for (let i = 0; i < cols; i++) {
+      field[i] = [];
+      for (let j = 0; j < rows; j++) {
+        field[i][j] = d.random(255);
+      }
+    }
+	showRectCheckBox = d.createCheckbox('Display as rectangles', false);
+    showRectCheckBox.changed(showRectCheckEvent);
+  }
+
+  d.draw = function() {
+    d.background(51);
+
+    for (let ball of balls) {
+      ball.update();
+      ball.show();
+    }
+
+    calculateField();
+    printField();
+  }
+
+  function calculateField() {
+    for (let i = 0; i < cols; i++) {
+      for (let j = 0; j < rows; j++) {
+        field[i][j] = 0;
+        let sum = 0;
+        for (let ball of balls) {
+          let dx = i * res - ball.pos.x;
+          let dy = j * res - ball.pos.y;
+          let d2 = dx * dx + dy * dy;
+          sum += d.sq(ball.r) / d2;
+        }
+		if(sum >= 1){
+			field[i][j] = 255;
+		} else {
+			field[i][j] = 0;
+		}
+      }
+    }
+  }
+
+  function printField() {
+    for (let i = 0; i < cols; i++) {
+      for (let j = 0; j < rows; j++) {
+        d.strokeWeight(4);
+        d.stroke(field[i][j] * 255);
+		if(displayAsRectangles){
+			d.fill(field[i][j]);
+			d.rect((i * res) - (res * 0.5), (j * res) - (res * 0.5), res, res);
+		} else {
+			d.point(i * res, j * res);
+		}
+      }
+    }
+  }
+  
+  function showRectCheckEvent() {
+    if (this.checked()) {
+      displayAsRectangles = true;
+    } else {
+      displayAsRectangles = false;
+    }
+  }
+
+  class Ball {
+
+    constructor(x, y) {
+      this.pos = d.createVector(x, y);
+      this.vel = p5.Vector.random2D();
+      this.vel.mult(d.random(1, 3));
+      this.r = d.random(20, d.height / 12.5);
+    }
+
+    update() {
+      this.pos.add(this.vel);
+
+      if (this.pos.x + this.r > d.width) {
+        this.pos.x = d.width - this.r;
+        this.vel.x *= -1;
+      }
+      if (this.pos.x - this.r < 0) {
+        this.pos.x = this.r;
+        this.vel.x *= -1;
+      }
+      if (this.pos.y + this.r > d.height) {
+        this.pos.y = d.height - this.r;
+        this.vel.y *= -1;
+      }
+      if (this.pos.y - this.r < 0) {
+        this.pos.y = this.r;
+        this.vel.y *= -1;
+      }
+    }
+
+    show() {
+      d.noFill();
+      d.stroke(100);
+      d.strokeWeight(3);
+      d.ellipse(this.pos.x, this.pos.y, this.r * 2, this.r * 2);
+    }
+  }
+}
+var myp5 = new p5(sketch4, 'c4');
