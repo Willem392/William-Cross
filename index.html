@@ -34,5 +34,30 @@
 			Well first things first. We can't make metaballs if we don't have any balls bouncing around the screen. So lets address that.
 		</p>
 		<div id='c2'></div>
+		<h1>
+			Now what?
+		</h1>
+		<p>
+			Just like that we have our balls bouncing around the screen. The concept behind this is very simple. We just have to create a new ball object, assign it a random radius, height, and velocity, give it some edge collision detection, create about 15 of them and there you have it. The next few steps are where it gets a little challenging. So first lets start out by creating what I like to call a point field.
+		</p>
+		<div id='c3'></div>
+		<h5>
+			For the purpose of this demonstration these points have a lower resolution than they would normally if you wanted to achieve a smooth, clean result.
+		</h5>
+		<p>
+			Alright done now that we have this grid how do we make the balls interact with it. It's somewhat complicated, but not to difficult to understand. First we need to recall the equation of a circle. This equation is how we can find where out circles are.
+		</p>
+		<img src="TheMath.jpg" alt="The Math">
+		<p>
+			With some rearranging we can find out if the points in our point field fall into our circles. However we don't want to know if the points are in only one of our circles we want to find all the points within all circles. We sum up all these values and the equation for that looks like this.
+		</p>
+		<img src="lessThanOne.jpg" alt="First Equation">
+		<p>
+			We can then take that equation and calculate the value of every point in our point field and assign it that value. That would look like this.
+		</p>
+		<img src="pointAssign.jpg" alt="Assigning point values">
+		<h5>
+			All of these equations are from <a href="http://jamie-wong.com/2014/08/19/metaballs-and-marching-squares/">"http://jamie-wong.com/2014/08/19/metaballs-and-marching-squares/"</a> you can visit this page for a more in-depth breakdown of how these equations are achieved.
+		</h5>
 	</body>
 </html>
