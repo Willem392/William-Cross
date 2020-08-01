@@ -427,7 +427,12 @@ var sketch4 = function(d) {
         d.strokeWeight(4);
         d.stroke(field[i][j] * 255);
 		if(displayAsRectangles){
-			d.fill(field[i][j]);
+			if(field[i][j] == 255){
+				d.fill(255);
+			} else {
+				d.fill(51);
+			}
+			d.noStroke();
 			d.rect((i * res) - (res * 0.5), (j * res) - (res * 0.5), res, res);
 		} else {
 			d.point(i * res, j * res);
